@@ -5,7 +5,7 @@ description: How Savant Chat (Novel Codes DMCC) collects, uses, and protects you
 
 # Privacy Policy
 
-Last Updated: April 8, 2025
+Last Updated: September 16, 2026
 
 Your privacy is important to us. This Privacy Policy describes what information **Savant Chat** collects, how it is used, and what rights you have regarding your data when using our AI-based code auditing service.
 
@@ -13,9 +13,9 @@ Your privacy is important to us. This Privacy Policy describes what information 
 
 Savant Chat does **not use any tracking or advertising cookies** on its website. We only utilize cookies that are **strictly necessary** for the operation of the service – for example, a session cookie to keep you logged in during your visit and maintain your authentication session.
 
-## Anonymized Analytics Data
+## Technical and Diagnostic Data
 
-We may collect **anonymized, aggregate usage data** to help us improve the user experience and performance of Savant Chat. This could include metrics such as the number of audits performed, general usage patterns, error logs, and other statistical information.
+While you are signed in, we collect anonymized technical information about application performance and error occurrences solely to troubleshoot issues and improve service reliability. These records are associated with a random identifier rather than your personal identity and explicitly exclude any user-submitted content, including code submitted for auditing. All diagnostic data is hosted on our own infrastructure, is never shared with third parties, and is automatically purged after a limited retention period.
 
 ## User-Submitted Code and Data Handling
 
@@ -35,7 +35,7 @@ https://savant.chat/ takes appropriate steps to ensure data privacy and security
 
 ## Data Retention and Deletion
 
-**Storage Duration:** We retain personal account information (like your email and profile info) for as long as your account is active or as needed to provide you services. Anonymized analytics data may be retained indefinitely since it has no personal identifiers.
+**Storage Duration:** We retain personal account information (like your email and profile info) for as long as your account is active or as needed to provide you services. Technical and diagnostic data is automatically purged after a limited retention period.
 
 ## International Data Transfers
 
