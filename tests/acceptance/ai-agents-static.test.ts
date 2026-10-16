@@ -5,6 +5,7 @@
 import {existsSync, readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {describe, expect, it} from 'vitest';
+import {JSDOM} from 'jsdom';
 
 const builtPage = resolve(process.cwd(), 'build/docs/ai-agents/index.html');
 
@@ -22,6 +23,13 @@ function staticText(html: string): string {
 }
 
 describe('MCP AC13: agent instructions survive static HTML fetch', () => {
+  it('links both API key instructions to the app dashboard', () => {
+    const document = new JSDOM(readFileSync(builtPage, 'utf8')).window.document;
+    const hrefs = Array.from(document.querySelectorAll('a[href]'), link => link.getAttribute('href'));
+    expect.soft(hrefs).not.toContain('https://savant.chat/api-keys');
+    expect(hrefs.filter(href => href === 'https://savant.chat/dashboard/api-keys')).toHaveLength(2);
+  });
+
   it('ships the docs route and every client command without script execution', () => {
     expect(existsSync(builtPage), 'Docusaurus must emit build/docs/ai-agents/index.html').toBe(true);
     const html = readFileSync(builtPage, 'utf8');
@@ -31,7 +39,7 @@ describe('MCP AC13: agent instructions survive static HTML fetch', () => {
     const heading = html.indexOf('Instructions for AI agents');
     expect(html.slice(heading)).toMatch(/<ol\b[\s\S]*?<li\b[\s\S]*?<\/ol>/);
     for (const phrase of ['Claude Code', 'Codex CLI', 'Cursor', 'Other', 'user scope',
-      'get_account', 'SAVANT_API_KEY', 'YOUR_API_KEY', '/api-keys']) {
+      'get_account', 'SAVANT_API_KEY', 'YOUR_API_KEY']) {
       expect(text, `static instructions missing ${phrase}`).toContain(phrase);
     }
     expect(text).toMatch(/never[^.]*key[^.]*(repository|version control)/i);
