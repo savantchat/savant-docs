@@ -18,7 +18,7 @@ Follow this procedure when a person asks you to set up Savant MCP. The commands 
 3. **Never write the key into the current repository or any file under version control.** Use the global configuration location. For Codex and Cursor, set `SAVANT_API_KEY` in the environment that launches the client, and tell the person where you set it. Keep the key out of project environment files.
 4. If the client needs to reload its configuration or environment, tell the person exactly which client to restart or reconnect, then **stop**. Continue after the client has reloaded and Savant is connected.
 5. Call `get_account`. Tell the person the account and acting context, its permissions in all four areas, and the monthly spend limit, amount spent, and remaining allowance. Include the balance only when the key can read it.
-6. Tell the person they can revoke this key on the <a href={`${setup.baseUrl}/api-keys`}>{`${setup.baseUrl}/api-keys`}</a>.
+6. Tell the person they can revoke this key on the <a href={`${setup.baseUrl}/dashboard/api-keys`}>{`${setup.baseUrl}/dashboard/api-keys`}</a>.
 
 ## Per-client configuration
 
@@ -86,4 +86,4 @@ If the monthly limit blocks an audit, the server returns HTTP 402 with the actua
 
 ### Revoke access
 
-Open the <a href={`${setup.baseUrl}/api-keys`}>API keys page</a> and revoke the key. Remove the Savant server and its environment variable from your client if you no longer use them.
+Open the <a href={`${setup.baseUrl}/dashboard/api-keys`}>API keys page</a> and revoke the key. Remove the Savant server and its environment variable from your client if you no longer use them.
