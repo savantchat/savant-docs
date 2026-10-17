@@ -1,4 +1,8 @@
 {
+  "redirects": [
+    { "source": "/blog/howto-load-non-standard-projects-to-savant-chat", "destination": "/docs/howto-load-non-standard-projects-to-savant-chat/", "type": 301 },
+    { "source": "/blog/howto-load-non-standard-projects-to-savant-chat/", "destination": "/docs/howto-load-non-standard-projects-to-savant-chat/", "type": 301 }
+  ],
   "headers": [
     {
       "source": "**/*.html",
