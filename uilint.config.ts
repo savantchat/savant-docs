@@ -5,6 +5,10 @@ export default defineUilintConfig({
     build: 'npm run build',
     distDir: './build',
     scenarios: {
+      'ai-agents': {
+        module: './uilint/scenarios/ai-agents.ts',
+        viewports: ['mobile', 'desktop', 'laptop', 'wide', 'widescreen'],
+      },
       home: {
         module: './uilint/scenarios/home.ts',
         viewports: ['mobile', 'desktop', 'laptop', 'wide', 'widescreen'],

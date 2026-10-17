@@ -6,6 +6,8 @@ import {existsSync, readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {describe, expect, it} from 'vitest';
 import {JSDOM} from 'jsdom';
+import setup from '../../src/generated/agent-setup';
+import {agentBlocks} from '../../uilint/specs/ai-agents.spec';
 
 const builtPage = resolve(process.cwd(), 'build/docs/ai-agents/index.html');
 
@@ -23,6 +25,13 @@ function staticText(html: string): string {
 }
 
 describe('MCP AC13: agent instructions survive static HTML fetch', () => {
+  it.each(Object.entries(agentBlocks))('%s preserves the exact single-line snippet', (name, selector) => {
+    const document = new JSDOM(readFileSync(builtPage, 'utf8')).window.document;
+    const text = document.querySelector(`${selector} code`)?.textContent;
+    expect(text).toBe(setup.snippets[name as keyof typeof agentBlocks]);
+    expect(text).not.toMatch(/[\r\n]/);
+  });
+
   it('links both API key instructions to the app dashboard', () => {
     const document = new JSDOM(readFileSync(builtPage, 'utf8')).window.document;
     const hrefs = Array.from(document.querySelectorAll('a[href]'), link => link.getAttribute('href'));
