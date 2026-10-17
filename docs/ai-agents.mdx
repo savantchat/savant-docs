@@ -26,7 +26,7 @@ Follow this procedure when a person asks you to set up Savant MCP. The commands 
 
 Run the generated command with the supplied key. The user scope setting writes the server to the user's global Claude configuration, outside the project. If this session cannot see Savant afterward, ask the person to restart Claude Code, then stop; after restart, verify Savant is connected and call `get_account`.
 
-<CodeBlock language="bash">{setup.snippets.claudeCodeSetup}</CodeBlock>
+<CodeBlock language="bash" className="agent-setup-wrap">{setup.snippets.claudeCodeSetup}</CodeBlock>
 
 ### Codex CLI
 
@@ -52,7 +52,7 @@ Use the client's user-level remote MCP configuration, with Streamable HTTP and a
 
 Create an API key and use the **Ask your agent** prompt in the key-created dialog. Its placeholder version is:
 
-<CodeBlock language="text">{setup.snippets.askYourAgent}</CodeBlock>
+<CodeBlock language="text" className="agent-setup-wrap">{setup.snippets.askYourAgent}</CodeBlock>
 
 The setup prompt puts the key in your agent's locally stored conversation transcript; the per-client tabs are the alternative if you want to supply it only through your terminal or configuration.
 

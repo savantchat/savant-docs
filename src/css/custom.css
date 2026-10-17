@@ -391,3 +391,9 @@ div[class*='codeBlockContainer'] {
     display: inline-flex;
   }
 }
+
+/* Wrap only the single-line agent setup command and prompt. */
+.agent-setup-wrap pre code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
