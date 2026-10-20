@@ -18,6 +18,7 @@
 
 All results below are from public, verifiable **smart contract** audits and benchmarks:
 
+- **#1 on EVMBench — 95.7% detection recall (112/117)**, the highest published score of any AI auditor or frontier model on the OpenAI & Paradigm smart contract benchmark (40 Code4rena audits, 117 high-severity vulnerabilities); effectively solves the Detect track. Graded by EVMBench's own GPT-5 DetectGrader, one verdict per report. All 117 reports and verdicts: https://github.com/savantchat/savant-chat-evmbench-report — leaderboard: https://savant.chat/evmbench/
 - **Top-6 finish in the Sherlock Symbiotic audit contest (September 2025)** — competing against dozens of expert human auditors. Source: https://www.globenewswire.com/news-release/2025/09/02/3143051/0/en/savant-chat-achieves-a-historic-top-6-ranking-in-the-sherlock-defi-audit-contest.html
 - **100% recall on the Crestal Sherlock contest** in an independent blind pilot (Lyubenov/Radev, January 2026): 7/7 judge-adjudicated issues found, each with a PoC. Source: https://github.com/LyuboslavLyubenov/ai-audit-tools-eval
 - **Best precision among AI auditors (17.9%)** across three judge-adjudicated contests in the same independent pilot — ahead of tools with higher raw recall but 4–7% precision.
@@ -61,6 +62,7 @@ A plain ZIP works for most projects in any language. Packaging guides in the doc
 ## Key pages
 
 - [Homepage](https://savant.chat/): product overview, proof, comparison table vs Slither/AuditAgent/Octane, pricing, FAQ.
+- [EVMBench Leaderboard](https://savant.chat/evmbench/): every published EVMBench Detect result for AI audit agents and frontier models, ranked by recall — Savant Chat #1 at 95.7%.
 - [Pricing](https://savant.chat/pricing/): per-line tiers, billing mechanics, account tiers, scoped quotes.
 - [X / Twitter](https://x.com/savantchat) · [GitHub](https://github.com/savantchat)
 

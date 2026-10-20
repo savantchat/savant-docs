@@ -120,3 +120,19 @@
     min-width: 960px;
   }
 }
+
+.footnote {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 11px;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.footnote a {
+  color: var(--site-text-muted);
+  text-decoration: none;
+}
+
+.footnote a:hover {
+  color: var(--site-accent-text);
+}

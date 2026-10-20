@@ -16,6 +16,7 @@ const signupUrl = 'pathname:///dashboard/auth?mode=register';
 const sitemapSourceFiles: Record<string, string> = {
   'https://savant.chat/': 'src/pages/index.tsx',
   'https://savant.chat/pricing/': 'src/pages/pricing.tsx',
+  'https://savant.chat/evmbench/': 'src/config/evmbench.ts',
 };
 
 function gitLastmod(file: string): string | null {
@@ -216,6 +217,7 @@ const config = {
         {to: '/#coverage', label: 'What we audit', position: 'left'},
         {to: '/#pillars', label: 'How it works', position: 'left'},
         {to: '/#proof', label: 'Proof', position: 'left'},
+        {to: '/evmbench/', label: 'EVMBench', position: 'left'},
         {to: '/pricing/', label: 'Pricing', position: 'left'},
         {
           type: 'docSidebar',
@@ -239,6 +241,7 @@ const config = {
           title: 'PRODUCT',
           items: [
             {label: 'What we audit', href: '/#coverage'},
+            {label: 'EVMBench leaderboard', href: '/evmbench/'},
             {label: 'Pricing', href: '/pricing/'},
             {label: 'FAQ', href: '/#faq'},
             {label: 'Docs', href: '/docs/'},

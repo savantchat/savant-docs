@@ -102,6 +102,25 @@
   text-decoration: none;
 }
 
+.featuredCard {
+  background: rgba(255, 107, 0, .06);
+  border-color: rgba(255, 107, 0, .45);
+  grid-column: 1 / -1;
+  min-height: 0;
+}
+
+.featuredCard .statValue {
+  color: var(--site-accent-text);
+}
+
+[data-theme='dark'] .featuredCard .statValue {
+  color: var(--site-accent-text);
+}
+
+.featuredCard .statLabel {
+  max-width: 760px;
+}
+
 @media screen and (max-width: 996px) {
   .proofStats {
     padding: 48px 24px;

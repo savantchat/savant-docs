@@ -1,4 +1,4 @@
-import {render, screen} from '@testing-library/react';
+import {render, screen, within} from '@testing-library/react';
 import Home from '../../src/pages';
 
 describe('comparison and testimonials sections', () => {
@@ -24,12 +24,15 @@ describe('comparison and testimonials sections', () => {
     expect(screen.getAllByTestId('comparison-row').length).toBeGreaterThanOrEqual(6);
   });
 
-  it('frames the Savant benchmark honestly', () => {
+  it('leads the Savant benchmark cell with EVMBench and a proof footnote', () => {
     const cell = screen.getByTestId('comparison-savant-benchmark');
 
-    expect(cell).toHaveTextContent('our open benchmark');
-    expect(cell).toHaveTextContent('100% recall');
-    expect(cell).not.toHaveTextContent(/independent/i);
+    expect(cell).toHaveTextContent('95.7% recall');
+    expect(cell).toHaveTextContent('EVMBench');
+    expect(within(cell).getByRole('link')).toHaveAttribute(
+      'href',
+      'https://github.com/savantchat/savant-chat-evmbench-report',
+    );
   });
 
   it('keeps Octane wins in the Octane column', () => {

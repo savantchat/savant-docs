@@ -4,6 +4,7 @@ import path from 'node:path';
 const cssFiles = [
   'src/css/custom.css',
   'src/pages/index.module.css',
+  'src/pages/evmbench.module.css',
   'src/components/Comparison/styles.module.css',
   'src/components/CostCalculator/styles.module.css',
   'src/components/Coverage/styles.module.css',

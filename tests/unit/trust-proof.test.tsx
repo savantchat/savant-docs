@@ -92,11 +92,11 @@ describe('trust logos and proof stats', () => {
     expect(source).not.toMatch(/stroke=["']#[0-9a-f]{3,8}["']/i);
   });
 
-  it('renders exactly six proof stat cards', () => {
-    expect(screen.getAllByTestId('stat-card')).toHaveLength(6);
+  it('renders exactly seven proof stat cards', () => {
+    expect(screen.getAllByTestId('stat-card')).toHaveLength(7);
   });
 
-  test.each(['Top-6', '100%', '17.9%', '87–95%', '200+', '$75'])(
+  test.each(['95.7%', 'Top-6', '100%', '17.9%', '87–95%', '200+', '$75'])(
     'renders the %s proof number',
     value => {
       expect(screen.getByTestId('proof-stats')).toHaveTextContent(value);

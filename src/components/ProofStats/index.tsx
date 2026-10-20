@@ -1,4 +1,7 @@
 import type {ReactNode} from 'react';
+import Link from '@docusaurus/Link';
+
+import {EVMBENCH_PROOF_URL} from '@site/src/config/evmbench';
 
 import BalancedHeading from '../BalancedHeading';
 import styles from './styles.module.css';
@@ -61,6 +64,20 @@ export default function ProofStats({signupUrl}: ProofStatsProps): ReactNode {
         </p>
       </div>
       <div className={styles.grid}>
+        <article
+          className={`${styles.statCard} ${styles.featuredCard}`}
+          data-testid="stat-card">
+          <strong className={styles.statValue}>#1 · 95.7%</strong>
+          <p className={styles.statLabel}>
+            recall on EVMBench, the OpenAI &amp; Paradigm smart contract
+            benchmark — 112 of 117 high-severity bugs detected, the highest of any
+            AI auditor or frontier model.{' '}
+            <Link to="/evmbench/">See the EVMBench leaderboard →</Link>
+          </p>
+          <a className={styles.sourceLink} href={EVMBENCH_PROOF_URL}>
+            Source ↗
+          </a>
+        </article>
         {proofStats.map(stat => (
           <article className={styles.statCard} data-testid="stat-card" key={stat.value}>
             <strong className={styles.statValue}>{stat.value}</strong>

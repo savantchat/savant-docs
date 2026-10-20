@@ -120,6 +120,7 @@ describe('savant.chat navbar config', () => {
     ['What we audit', '/#coverage'],
     ['How it works', '/#pillars'],
     ['Proof', '/#proof'],
+    ['EVMBench', '/evmbench/'],
     ['Pricing', '/pricing/'],
     ['Blog', '/blog'],
   ])('includes the %s nav item', (label, to) => {

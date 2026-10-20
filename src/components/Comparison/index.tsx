@@ -1,5 +1,6 @@
 import type {ReactNode} from 'react';
 
+import {EVMBENCH_PROOF_URL} from '@site/src/config/evmbench';
 import BalancedHeading from '../BalancedHeading';
 import styles from './styles.module.css';
 
@@ -9,7 +10,7 @@ type ComparisonRow = {
   manual: string;
   auditAgent: string;
   octane: string;
-  savant: string;
+  savant: ReactNode;
 };
 
 const rows: ComparisonRow[] = [
@@ -43,7 +44,20 @@ const rows: ComparisonRow[] = [
     manual: 'n/a',
     auditAgent: '67% recall on EVMBench (post-validation)',
     octane: 'Monad contest #1 of 1,600',
-    savant: '87–95% on CTFBench (our open benchmark); 100% recall on Crestal (judge-adjudicated)',
+    savant: (
+      <>
+        #1 on EVMBench — 95.7% recall (112/117): benchmark solved, industry-leading
+        recall
+        <sup className={styles.footnote}>
+          <a
+            href={EVMBENCH_PROOF_URL}
+            aria-label="Proof: all 117 EVMBench reports and verdicts on GitHub"
+            title="All 117 EVMBench reports and verdicts on GitHub">
+            [?]
+          </a>
+        </sup>
+      </>
+    ),
   },
   {
     criterion: 'False positives',
