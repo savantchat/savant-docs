@@ -1,0 +1,28 @@
+name: Deploy savant-docs (main)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-savant-docs-main
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy to production server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run remote deploy for docs service only
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DOCS_DEPLOY_HOST }}
+          username: ${{ secrets.DOCS_DEPLOY_USER }}
+          key: ${{ secrets.DOCS_DEPLOY_SSH_KEY }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            /root/savant/deploy/deploy-docs.sh
