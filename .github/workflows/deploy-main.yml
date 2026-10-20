@@ -1,5 +1,15 @@
 name: Deploy savant-docs (main)
 
+# A push to main publishes the site on the production host (savant-core).
+#
+# Everything happens server-side: the deploy key in DOCS_DEPLOY_SSH_KEY is
+# installed there as restrict,command="/usr/local/sbin/deploy-savant-docs", so
+# whatever this step sends, the host runs that one script and nothing else.
+# The script builds the image, checks the build really produced a site,
+# recreates only the docs container, waits for its healthcheck and for 200 on
+# /, /readyz and /dashboard/, and rolls back to the previously serving image if
+# that gate fails — in which case this step goes red.
+
 on:
   push:
     branches:
@@ -23,6 +33,6 @@ jobs:
           username: ${{ secrets.DOCS_DEPLOY_USER }}
           key: ${{ secrets.DOCS_DEPLOY_SSH_KEY }}
           script_stop: true
-          script: |
-            set -euo pipefail
-            /root/savant/deploy/deploy-docs.sh
+          # A cold docusaurus build (no warm layer cache) overruns the 10m default.
+          command_timeout: 20m
+          script: /usr/local/sbin/deploy-savant-docs
