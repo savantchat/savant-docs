@@ -44,7 +44,9 @@
     "@uilint/core": "file:.uilint-packages/uilint-core-0.1.2.tgz",
     "@uilint/playwright": "file:.uilint-packages/uilint-playwright-0.1.2.tgz",
     "@vitejs/plugin-react": "^6.0.3",
+    "compression": "1.7.4",
     "jsdom": "^29.1.1",
+    "serve-handler": "6.1.5",
     "typescript": "~6.0.2",
     "vitest": "^4.1.9"
   },
