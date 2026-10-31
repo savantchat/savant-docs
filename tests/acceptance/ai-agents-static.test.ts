@@ -1,7 +1,8 @@
 // @vitest-environment node
-// AC13: run `npm ci && npm run build && npm test -- tests/acceptance/ai-agents-static.test.ts`
-// from landing/. The build is separate so a missing page fails as an assertion,
-// and CI cannot mistake a build failure for proof of the no-JavaScript contract.
+// AC13: run `npm ci && npm test -- tests/acceptance/ai-agents-static.test.ts` from
+// landing/; `pretest` runs the Docusaurus build first. The build is a separate step,
+// not part of this file, so a missing page fails as an assertion, and a build
+// failure stops `npm test` before any test can pass.
 import {existsSync, readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {describe, expect, it} from 'vitest';

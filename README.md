@@ -16,7 +16,8 @@ npm run uilint:build # generate local @uilint/* 0.1.2 tarballs from vendor/
 npm install
 npm start           # dev server on :3000
 npm run build       # production build
-npm test            # unit/component tests (vitest)
+npm test            # production build (pretest), then unit/component tests (vitest)
+npx vitest run      # the same tests without the build, for a fast local loop
 npm run test:layout # uilint declarative layout tests
 ```
 
