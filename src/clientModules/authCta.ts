@@ -6,14 +6,18 @@ import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment';
 //
 // The SSG HTML ships the signed-out CTA (correct default for SEO + the logged-out majority).
 // A localStorage hint (persists across the app -> docs hard navigation, same origin) lets us
-// optimistically apply the last-known state before the /me round-trip, avoiding a flash for
-// returning signed-in users.
+// record the last-known state before the /me round-trip. Apply it in onRouteDidUpdate,
+// after hydration and before paint, avoiding both a hydration mismatch and a flash for
+// returning signed-in users. Start observing later-mounted CTAs only after hydration.
 
 const AUTHED_LABEL = 'Go to dashboard';
 const AUTHED_HREF = '/dashboard';
 const ANON_LABEL = 'Start free';
 const ANON_HREF = '/dashboard/auth?mode=register';
 const HINT_KEY = 'savant_authed';
+
+let known = false;
+let hydrated = false;
 
 function applyCta(authed: boolean): void {
   const label = authed ? AUTHED_LABEL : ANON_LABEL;
@@ -37,23 +41,29 @@ async function detectAuth(): Promise<boolean> {
 }
 
 if (ExecutionEnvironment.canUseDOM) {
-  const optimistic = window.localStorage.getItem(HINT_KEY) === '1';
-  applyCta(optimistic);
-
-  // The desktop CTA is in the SSG HTML, but the mobile CTA is (re)mounted when the hamburger
-  // menu opens and on client-side route changes — re-apply the current known state whenever a
-  // navbar-cta anchor appears.
-  let known = optimistic;
-  const observer = new MutationObserver(() => {
-    if (document.querySelector('a.navbar-cta')) applyCta(known);
-  });
-  observer.observe(document.body, {childList: true, subtree: true});
+  known = window.localStorage.getItem(HINT_KEY) === '1';
 
   void detectAuth().then((authed) => {
     known = authed;
     window.localStorage.setItem(HINT_KEY, authed ? '1' : '0');
-    applyCta(authed);
+    if (hydrated) applyCta(known);
   });
 }
 
-export {};
+export function onRouteDidUpdate(): void {
+  if (!ExecutionEnvironment.canUseDOM) return;
+
+  const firstUpdate = !hydrated;
+  hydrated = true;
+  applyCta(known);
+
+  if (!firstUpdate) return;
+
+  // The desktop CTA is in the SSG HTML, but the mobile CTA is (re)mounted when the hamburger
+  // menu opens and on client-side route changes — re-apply the current known state whenever a
+  // navbar-cta anchor appears.
+  const observer = new MutationObserver(() => {
+    if (document.querySelector('a.navbar-cta')) applyCta(known);
+  });
+  observer.observe(document.body, {childList: true, subtree: true});
+}
