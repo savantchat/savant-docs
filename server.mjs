@@ -4,7 +4,11 @@
 // (serve-handler 6.1.5), the same serve.json, the same gzip compression and
 // the same ETag behaviour.
 //
-// The one difference is the lstat override below. serve-handler lets only
+// Page directories redirect to their trailing-slash URLs, preserving queries.
+// serve.json's trailingSlash would drop queries, redirect missing pages and
+// add a hop before custom redirects, so we check for page directories here.
+//
+// The lstat override below handles filesystem errors. serve-handler lets only
 // ENOENT and ENOTDIR through its lstat error checks; any other code becomes a
 // 500. A path the filesystem cannot name (an overlong segment gives
 // ENAMETOOLONG, a NUL byte gives ERR_INVALID_ARG_VALUE) does not exist, so we
@@ -34,6 +38,23 @@ async function lstat(target) {
 
 const methods = {lstat};
 
+async function pageRedirect(request, publicDir) {
+  if (request.method !== 'GET' && request.method !== 'HEAD') return;
+  const pathname = request.url.split('?', 1)[0];
+  if (pathname.endsWith('/') || pathname.startsWith('//')) return;
+  try {
+    const target = path.join(publicDir, decodeURIComponent(pathname));
+    const relative = path.relative(publicDir, target);
+    if (relative === '..' || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) return;
+    if (!(await lstat(target)).isDirectory()) return;
+    if (!(await lstat(path.join(target, 'index.html'))).isFile()) return;
+    return `${pathname}/${request.url.slice(pathname.length)}`;
+  } catch {
+    // Leave malformed URLs and filesystem errors to serve-handler.
+    return;
+  }
+}
+
 function loadConfig(publicDir) {
   // serve reads serve.json from the served directory; keep doing that.
   let config = {};
@@ -56,7 +77,15 @@ export function createServer(publicDir) {
       );
     });
     compress(request, response)
-      .then(() => handler(request, response, config, methods))
+      .then(async () => {
+        const location = await pageRedirect(request, config.public);
+        if (location) {
+          response.writeHead(301, {Location: location});
+          response.end();
+          return;
+        }
+        return handler(request, response, config, methods);
+      })
       .catch((err) => {
         console.error(err);
         if (!response.headersSent) response.statusCode = 500;
