@@ -8,6 +8,9 @@
 // serve.json's trailingSlash would drop queries, redirect missing pages and
 // add a hop before custom redirects, so we check for page directories here.
 //
+// Access logs: ISO time, method, request URL, status, elapsed ms, then ref=.
+// Referrers are a Savant path or external origin; missing/invalid values use -.
+//
 // The lstat override below handles filesystem errors. serve-handler lets only
 // ENOENT and ENOTDIR through its lstat error checks; any other code becomes a
 // 500. A path the filesystem cannot name (an overlong segment gives
@@ -67,13 +70,27 @@ function loadConfig(publicDir) {
   return {...config, public: publicDir, etag: true};
 }
 
+function refField(header) {
+  if (!header) return '-';
+  try {
+    const url = new URL(header);
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return '-';
+    const value = ['savant.chat', 'www.savant.chat', 'dev.savant.chat'].includes(url.hostname)
+      ? url.pathname
+      : url.origin;
+    return /[\x00-\x20\x7f]/.test(value) ? '-' : value;
+  } catch {
+    return '-';
+  }
+}
+
 export function createServer(publicDir) {
   const config = loadConfig(path.resolve(publicDir));
   return http.createServer((request, response) => {
     const started = Date.now();
     response.on('finish', () => {
       console.log(
-        `${new Date(started).toISOString()} ${request.method} ${request.url} ${response.statusCode} ${Date.now() - started}ms`,
+        `${new Date(started).toISOString()} ${request.method} ${request.url} ${response.statusCode} ${Date.now() - started}ms ref=${refField(request.headers.referer)}`,
       );
     });
     compress(request, response)

@@ -4,7 +4,7 @@ import http from 'node:http';
 import type {AddressInfo} from 'node:net';
 import os from 'node:os';
 import path from 'node:path';
-import {afterAll, beforeAll, describe, expect, it} from 'vitest';
+import {afterAll, afterEach, beforeAll, describe, expect, it, vi} from 'vitest';
 import {createServer} from '../../server.mjs';
 
 // The docs image serves the built site with server.mjs. Scanners send paths
@@ -16,9 +16,9 @@ let publicDir: string;
 let server: http.Server;
 let port: number;
 
-function get(rawPath: string): Promise<number> {
+function get(rawPath: string, headers: http.OutgoingHttpHeaders = {}): Promise<number> {
   return new Promise((resolve, reject) => {
-    const req = http.get({host: '127.0.0.1', port, path: rawPath}, (res) => {
+    const req = http.get({host: '127.0.0.1', port, path: rawPath, headers}, (res) => {
       res.resume();
       res.on('end', () => resolve(res.statusCode ?? 0));
     });
@@ -99,6 +99,59 @@ describe('static server', () => {
 
   it('answers 400 for malformed percent-encoding', async () => {
     expect(await get('/%E0%A4%A')).toBe(400);
+  });
+});
+
+describe('static server access log', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  async function expectReferrer(referer: string | undefined, expected: string) {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const headers = referer === undefined ? {} : {Referer: referer};
+    expect(await get('/docs/ai-agents/', headers)).toBe(200);
+
+    const escaped = expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pattern = new RegExp(
+      '^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d\\.\\d{3}Z GET /docs/ai-agents/ 200 \\d+ms ref=' + escaped + '$',
+    );
+    await vi.waitFor(() => {
+      const line = log.mock.calls
+        .map(([message]) => message)
+        .find((message) => typeof message === 'string' && message.includes(' GET /docs/ai-agents/ '));
+      expect(line).toMatch(pattern);
+    });
+  }
+
+  it.each(['savant.chat', 'www.savant.chat', 'dev.savant.chat'])(
+    'logs only the path for %s, omitting the query and fragment',
+    async (host) => {
+      await expectReferrer(
+        `https://${host}/docs/getting-started/?q=secret#frag`,
+        '/docs/getting-started/',
+      );
+    },
+  );
+
+  it('logs only the origin for an external referrer', async () => {
+    await expectReferrer('https://www.google.com/search?q=savant', 'https://www.google.com');
+  });
+
+  it('logs ref=- when the Referer header is absent', async () => {
+    await expectReferrer(undefined, '-');
+  });
+
+  it.each(['not a url', '/docs/x'])('logs ref=- for a non-absolute URL: %s', async (referer) => {
+    await expectReferrer(referer, '-');
+  });
+
+  it('percent-encodes spaces in a same-host referrer path', async () => {
+    await expectReferrer('https://savant.chat/a b/?t=1', '/a%20b/');
+  });
+
+  it('logs ref=- for a non-HTTP scheme', async () => {
+    await expectReferrer('android-app://com.google.android.gm/', '-');
   });
 });
 
