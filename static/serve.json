@@ -1,7 +1,13 @@
 {
   "redirects": [
     { "source": "/blog/howto-load-non-standard-projects-to-savant-chat", "destination": "/docs/howto-load-non-standard-projects-to-savant-chat/", "type": 301 },
-    { "source": "/blog/howto-load-non-standard-projects-to-savant-chat/", "destination": "/docs/howto-load-non-standard-projects-to-savant-chat/", "type": 301 }
+    { "source": "/blog/howto-load-non-standard-projects-to-savant-chat/", "destination": "/docs/howto-load-non-standard-projects-to-savant-chat/", "type": 301 },
+    { "source": "/blog/tags/github", "destination": "/docs/tags/github/", "type": 301 },
+    { "source": "/blog/tags/github/", "destination": "/docs/tags/github/", "type": 301 },
+    { "source": "/blog/tags/zip", "destination": "/docs/tags/zip/", "type": 301 },
+    { "source": "/blog/tags/zip/", "destination": "/docs/tags/zip/", "type": 301 },
+    { "source": "/blog/tags/scope-loading", "destination": "/docs/tags/scope-loading/", "type": 301 },
+    { "source": "/blog/tags/scope-loading/", "destination": "/docs/tags/scope-loading/", "type": 301 }
   ],
   "headers": [
     {

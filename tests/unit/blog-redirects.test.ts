@@ -21,6 +21,12 @@ const movedPosts = [
   },
 ];
 
+const movedTags = [
+  {slug: 'github', label: 'github', docFile: 'docs/howto-load-non-standard-projects/index.mdx'},
+  {slug: 'zip', label: 'zip', docFile: 'docs/howto-load-non-standard-projects/index.mdx'},
+  {slug: 'scope-loading', label: 'scope loading', docFile: 'docs/howto-load-non-standard-projects/index.mdx'},
+];
+
 function frontmatterSlug(file: string): string {
   const source = readFileSync(path.resolve(root, file), 'utf8');
   const match = /^---\n[\s\S]*?^slug:\s*(\S+)\s*$[\s\S]*?^---$/m.exec(source);
@@ -28,13 +34,20 @@ function frontmatterSlug(file: string): string {
   return match[1].replace(/^\//, '');
 }
 
-function liveBlogSlugs(): string[] {
+function frontmatterTags(file: string): string[] {
+  const source = readFileSync(path.resolve(root, file), 'utf8');
+  const match = /^---\n[\s\S]*?^tags:\s*\[([^\]\n]*)\]\s*$[\s\S]*?^---$/m.exec(source);
+  if (!match) throw new Error(`${file} has no inline tags frontmatter`);
+  return match[1].split(',').map(tag => tag.trim().replace(/^['"]|['"]$/g, ''));
+}
+
+function liveBlogFiles(): string[] {
   return readdirSync(path.resolve(root, 'blog'), {withFileTypes: true})
     .filter(entry => entry.isDirectory())
     .flatMap(entry => {
       const dir = path.join('blog', entry.name);
       const index = ['index.mdx', 'index.md'].find(name => existsSync(path.resolve(root, dir, name)));
-      return index ? [frontmatterSlug(path.join(dir, index))] : [];
+      return index ? [path.join(dir, index)] : [];
     });
 }
 
@@ -50,10 +63,33 @@ describe('moved blog posts redirect to their docs page', () => {
   });
 
   it('never redirects away from a post that is still published', () => {
-    const live = new Set(liveBlogSlugs().map(slug => `/blog/${slug}`));
+    const live = new Set(liveBlogFiles().map(file => `/blog/${frontmatterSlug(file)}`));
     expect(live.size).toBeGreaterThan(0);
     for (const rule of redirects) {
       expect(live.has(rule.source.replace(/\/$/, '')), `${rule.source} shadows a live post`).toBe(false);
+    }
+  });
+});
+
+describe('moved blog tags redirect to their docs tag page', () => {
+  test.each(movedTags)('/blog/tags/$slug answers 301 with and without a trailing slash', ({slug}) => {
+    for (const source of [`/blog/tags/${slug}`, `/blog/tags/${slug}/`]) {
+      const rule = redirects.find(r => r.source === source);
+      expect(rule, `serve.json has no redirect for ${source}`).toBeDefined();
+      expect(rule?.destination).toBe(`/docs/tags/${slug}/`);
+      expect(rule?.type).toBe(301);
+    }
+  });
+
+  test.each(movedTags)('/docs/tags/$slug is still published by the moved doc', ({docFile, label}) => {
+    expect(frontmatterTags(docFile)).toContain(label);
+  });
+
+  test.each(movedTags)('/blog/tags/$slug does not shadow a tag that is still published', ({label}) => {
+    const live = liveBlogFiles();
+    expect(live.length).toBeGreaterThan(0);
+    for (const file of live) {
+      expect(frontmatterTags(file), `${file} still publishes the ${label} blog tag`).not.toContain(label);
     }
   });
 });
