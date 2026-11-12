@@ -12,8 +12,7 @@ Docusaurus-based frontend. Dark ("Obsidian") and light ("Porcelain") themes deri
 ## Development
 
 ```bash
-npm run uilint:build # generate local @uilint/* 0.1.2 tarballs from vendor/
-npm install
+npm ci              # install from the committed lockfile and @uilint/* tarballs
 npm start           # dev server on :3000
 npm run build       # production build
 npm test            # production build (pretest), then unit/component tests (vitest)
@@ -33,14 +32,17 @@ All features and bugfixes go through sya tasks with a mandatory red-tests stage:
 
 ## Vendored uilint
 
-This project uses the checked-in `vendor/uilint` 0.1.2 packages instead of npm's older published 0.1.1 packages. Rebuild the vendored packages before installing from a fresh clone or after pulling upstream vendor changes:
+This project uses the checked-in `vendor/uilint` 0.1.2 packages instead of npm's older published 0.1.1 packages. The tarballs in `.uilint-packages/` and `package-lock.json` are committed, so `npm ci` is all a fresh clone needs.
 
-```bash
-npm run uilint:build
-npm install
-```
+Use `uilint:build` only when updating vendored uilint. The build strips `*.tsbuildinfo` caches so the tarballs do not depend on local `node_modules`.
 
 ```bash
 # pull upstream updates
 git subtree pull --prefix vendor/uilint https://github.com/snjax/uilint main --squash
+npm run uilint:build
+npm install --save-dev ./.uilint-packages/*.tgz # refresh lockfile integrity
+git add vendor/uilint .uilint-packages/ package-lock.json
+git commit -m "chore(uilint): update vendored packages"
 ```
+
+Commit `vendor/uilint`, `.uilint-packages/` and `package-lock.json` together.

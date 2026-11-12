@@ -10,7 +10,7 @@
     "test": "vitest run",
     "test:layout": "uilint layout",
     "test:layout:fast": "uilint layout --skip-build",
-    "uilint:build": "cd vendor/uilint && npx pnpm@10.11.0 install && npx pnpm@10.11.0 build && mkdir -p ../../.uilint-packages && npx pnpm@10.11.0 --filter @uilint/core pack --pack-destination ../../.uilint-packages && npx pnpm@10.11.0 --filter @uilint/playwright pack --pack-destination ../../.uilint-packages && npx pnpm@10.11.0 --filter @uilint/cli pack --pack-destination ../../.uilint-packages",
+    "uilint:build": "sh scripts/uilint-build.sh",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
