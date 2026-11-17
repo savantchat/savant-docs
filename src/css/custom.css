@@ -397,3 +397,12 @@ div[class*='codeBlockContainer'] {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
+
+/* Without JavaScript the theme script never sets data-theme, so the page uses
+   the light :root palette while the server-rendered Prism markup carries the
+   default (dark) theme's inline colours. Use the light (github) base colour. */
+html:not([data-theme]) .prism-code,
+html:not([data-theme]) .prism-code :is(.token-line, .token) {
+  background-color: var(--ifm-code-background) !important;
+  color: #393a34 !important;
+}
