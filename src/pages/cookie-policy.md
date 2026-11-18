@@ -33,6 +33,10 @@ Because we do not use advertising or analytics cookies, you can rest assured tha
 
 By using the Savant Chat website and service, you **consent to the placement of the essential session cookie** on your device. If you do not agree to the use of this cookie, unfortunately you will not be able to use the core functionality of the service (since it is needed for login).
 
+## Session Recording
+
+With your consent, newer accounts may have their use of the app recorded to help us improve it (see [Session Recording](/privacy-policy#session-recording) in our Privacy Policy). Session recording sets **no cookies** and stores nothing in your browser; your choice is stored with your account on our servers. Recordings stay on our own infrastructure and are never shared with or transferred to third parties. Recording is off unless you agree, and you can turn it off at any time in Account → Privacy.
+
 ## Managing Cookies
 
 Because we only use essential cookies, there is no cookie banner or complex cookie settings on our site – the minimal cookies we use are considered necessary and thus are in use by default.

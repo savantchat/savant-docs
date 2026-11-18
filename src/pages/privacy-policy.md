@@ -5,7 +5,7 @@ description: How Savant Chat (Novel Codes DMCC) collects, uses, and protects you
 
 # Privacy Policy
 
-Last Updated: September 16, 2026
+Last Updated: November 18, 2026
 
 Your privacy is important to us. This Privacy Policy describes what information **Savant Chat** collects, how it is used, and what rights you have regarding your data when using our AI-based code auditing service.
 
@@ -15,7 +15,23 @@ Savant Chat does **not use any tracking or advertising cookies** on its website.
 
 ## Technical and Diagnostic Data
 
-While you are signed in, we collect anonymized technical information about application performance and error occurrences solely to troubleshoot issues and improve service reliability. These records are associated with a random identifier rather than your personal identity and explicitly exclude any user-submitted content, including code submitted for auditing. All diagnostic data is hosted on our own infrastructure, is never shared with third parties, and is automatically purged after a limited retention period.
+While you are signed in, we collect anonymized technical information about application performance and error occurrences solely to troubleshoot issues and improve service reliability. These records are associated with a random identifier rather than your personal identity and explicitly exclude any user-submitted content, including code submitted for auditing. All diagnostic data is hosted on our own infrastructure, is never shared with third parties, and is automatically purged after a limited retention period. Session recordings are described separately below.
+
+## Session Recording
+
+**Only with your consent.** Some newer accounts are asked whether we may record how they use the Savant Chat app, so that we can find and fix what is confusing or broken. We record nothing unless you agree. Long-standing customers and administrators are never asked or recorded, and recording stops automatically when an account no longer qualifies. If your browser sends a Global Privacy Control or Do Not Track signal, we treat it as a "no" and do not ask.
+
+**What we record.** The structure of the app pages you visit and your interactions with them: clicks, scrolling, mouse movement and navigation, together with technical events such as which of our API requests ran, how long they took, whether they failed, and application errors. Everything you type and all text shown on screen is masked in the browser before it is sent, except the fixed labels of our interface. We never record the pages for signing in, password reset, email verification, unsubscribing, payments, identity verification, API keys, automations or administration, or any page where you set up an audit or read an audit report. Your code and audit results are never recorded. Only the app at savant.chat is recorded, never our documentation or marketing website.
+
+**Legal basis.** We record only on the basis of your consent. We keep a record of your choice (the decision, the time, the version of the consent text, your IP address and browser) as proof of that consent.
+
+**No transfer to third parties.** Recordings and their summaries are stored on our own infrastructure. We do not sell, share or transfer them to third parties, and we do not use any third-party analytics or session-recording service. A limited number of authorised Savant staff can view recordings, and each viewing is logged.
+
+**Automated analysis.** We turn each recording into a short text summary of the session (pages visited, interface elements used, errors and timings). The summary contains no name, email address, IP address, typed input or masked text, and refers to the session only by a random identifier. Our automated tools analyse these summaries, including with AI models provided by **Anthropic, PBC**. Anthropic processes the summaries only on our behalf, as our service provider (processor), and not for its own purposes. It receives only the summaries, never the recordings themselves.
+
+**Retention.** Recordings and their summaries are deleted automatically after 14 days.
+
+**Withdrawing consent.** You can turn session recording off at any time in **Account → Privacy**. This stops recording immediately and deletes your recordings and their summaries. You can also delete your recordings there without turning recording off. Deleting your account deletes them too. Withdrawing consent does not affect recording that took place before you withdrew it.
 
 ## User-Submitted Code and Data Handling
 
@@ -35,7 +51,7 @@ https://savant.chat/ takes appropriate steps to ensure data privacy and security
 
 ## Data Retention and Deletion
 
-**Storage Duration:** We retain personal account information (like your email and profile info) for as long as your account is active or as needed to provide you services. Technical and diagnostic data is automatically purged after a limited retention period.
+**Storage Duration:** We retain personal account information (like your email and profile info) for as long as your account is active or as needed to provide you services. Technical and diagnostic data is automatically purged after a limited retention period. Session recordings, if you agreed to them, are deleted after 14 days or as soon as you turn recording off.
 
 ## International Data Transfers
 
